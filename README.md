@@ -25,3 +25,26 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+## Using Docker
+
+### Create Container
+
+First create the Docker container with the following command:
+
+`my-terminal$ docker build -t example:dev .`
+
+### Run the Container
+
+Second, run the container binding the internal (hidden) container port to the output (visible) port by doing:
+
+`my-terminal$ docker run -p 4200:4321 --rm example:dev`
+
+### Note
+
+Of course you can change the container name, and the external port by changing:
+
+- `example:dev` is the name;
+- `4321` is the internal port (specified in the Dockerfile);
+- `4200` is the visible port, you can choose any port you want;
