@@ -58,6 +58,18 @@
   </div>
 </div>
 <br />
+<div class="alert alert-info">
+  Click on a day or time slot on the view.
+  <br />
+  <strong *ngIf="clickedDate"
+    >You clicked on this time: {{ clickedDate | date:'medium' }}</strong
+  >
+  <br />
+  <strong *ngIf="clickedColumn != null"
+    >You clicked on this column: {{ clickedColumn }}</strong
+  >
+</div>
+<br />
 <div [ngSwitch]="view">
   <mwl-calendar-month-view
     *ngSwitchCase="CalendarView.Month"
@@ -65,9 +77,17 @@
     [events]="events"
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
+
     (dayClicked)="dayClicked($event.day)"
+
     (eventClicked)="handleEvent('Clicked', $event.event)"
+
     (eventTimesChanged)="eventTimesChanged($event)"
+
+    (beforeViewRender)="beforeMonthViewRender($event)"
+
+    (columnHeaderClicked)="clickedColumn = $event.isoDayNumber"
+    (dayClicked)="clickedDate = $event.day.date"
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view
@@ -75,8 +95,18 @@
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+
     (eventClicked)="handleEvent('Clicked', $event.event)"
+
     (eventTimesChanged)="eventTimesChanged($event)"
+
+    (beforeViewRender)="beforeWeekViewRender($event)"
+
+    [dayStartHour]="dayStartHour"
+    [dayEndHour]="dayEndHour"
+
+    (dayHeaderClicked)="clickedDate = $event.day.date"
+    (hourSegmentClicked)="clickedDate = $event.date"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
@@ -84,8 +114,17 @@
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+
     (eventClicked)="handleEvent('Clicked', $event.event)"
+
     (eventTimesChanged)="eventTimesChanged($event)"
+
+    (beforeViewRender)="beforeDayViewRender($event)"
+
+    [dayStartHour]="dayStartHour"
+    [dayEndHour]="dayEndHour"
+
+    (hourSegmentClicked)="clickedDate = $event.date"
   >
   </mwl-calendar-day-view>
 </div>
@@ -179,7 +218,7 @@
   </table>
 </div>
 
-<ng-template #modalContent let-close="close">
+<!-- <ng-template #modalContent let-close="close">
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>
     <button type="button" class="close" (click)="close()">
@@ -202,3 +241,4 @@
     </button>
   </div>
 </ng-template>
+-->
