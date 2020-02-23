@@ -105,13 +105,34 @@ export class AppComponent {
     }
   ];
 
+  externalEvents: CalendarEvent[] = [
+    {
+      id: 10,
+      title: 'Event 1',
+      start: new Date(),
+      end: addDays(new Date(), 1),
+      color: colors.yellow,
+      draggable: true,
+      allDay: true
+    },
+    {
+      id: 11,
+      title: 'Event 2',
+      start: new Date(),
+      end: addDays(new Date(), 2),
+      color: colors.blue,
+      draggable: true
+    }
+  ];
+
+
   events: Array<CalendarEvent> = [
     {
       id: 1,
       title: 'An all day event',
+      start: subDays(endOfMonth(new Date()), 1),
+      end: addDays(endOfMonth(new Date()), 1),
       color: colors.yellow,
-      start: new Date(),
-      end: new Date(),
       allDay: true,
       draggable: true
     },
@@ -185,9 +206,10 @@ export class AppComponent {
   eventTimesChanged({
     event,
     newStart,
-    newEnd
+    newEnd,
+    allDay
   }: CalendarEventTimesChangedEvent): void {
-
+    const externalIndex = this.externalEvents.indexOf(event);
     const idx: number = this.events.indexOf(event);
 
     const newEvent = {
@@ -196,24 +218,55 @@ export class AppComponent {
       end: newEnd
     };
 
-    this.events.splice(idx, 1, newEvent);
+    if (typeof allDay !== 'undefined') {
+      event.allDay = allDay;
+    }
 
-    // this.events = this.events.map(iEvent => {
-    //   console.log({name: 'iEvent', obj: iEvent});
-    //   console.log({name: 'event', obj: event});
-    //   if (iEvent === event) {
-    //     return {
-    //       ...event,
-    //       start: newStart,
-    //       end: newEnd
-    //     };
-    //   }
-    //   return iEvent;
-    // });
+    /*
+     *  External event drop
+     */
+    if (externalIndex > -1) {
+      this.externalEvents.splice(externalIndex, 1);
+      this.events.push(event);
 
-    const title: string = this.dropOrResize(newEvent, event);
+      this.handleEvent('Drop external event', event);
+    }
 
-    this.handleEvent(title, event);
+    /*
+     *  Internal event drop or resize
+     */
+    if (idx > -1) {
+      this.events.splice(idx, 1, newEvent);
+
+      // this.events = this.events.map(iEvent => {
+      //   console.log({name: 'iEvent', obj: iEvent});
+      //   console.log({name: 'event', obj: event});
+      //   if (iEvent === event) {
+      //     return {
+      //       ...event,
+      //       start: newStart,
+      //       end: newEnd
+      //     };
+      //   }
+      //   return iEvent;
+      // });
+
+      const title: string = this.dropOrResize(newEvent, event);
+
+      this.handleEvent(title, event);
+
+    }
+
+
+    event.start = newStart;
+    if (newEnd) {
+      event.end = newEnd;
+    }
+    if (this.view === 'month') {
+      this.viewDate = newStart;
+      this.activeDayIsOpen = true;
+    }
+    this.events = [...this.events];
 
     this.refresh.next();
   }
@@ -250,6 +303,12 @@ export class AppComponent {
     }
   }
 
+  externalDrop(event: CalendarEvent) {
+    if (this.externalEvents.indexOf(event) === -1) {
+      this.events = this.events.filter(iEvent => iEvent !== event);
+      this.externalEvents.push(event);
+    }
+  }
 
   handleEvent(action: string, event: CalendarEvent): void {
     console.log({ event, action });
