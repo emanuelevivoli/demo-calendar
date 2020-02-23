@@ -137,6 +137,7 @@
       <mwl-calendar-week-view
         *ngSwitchCase="CalendarView.Week"
         [viewDate]="viewDate"
+        [hourSegments]="segmentsInHour"
 
         [events]="events"
         [refresh]="refresh"
@@ -162,7 +163,9 @@
 
       <mwl-calendar-day-view
         *ngSwitchCase="CalendarView.Day"
+
         [viewDate]="viewDate"
+        [hourSegments]="segmentsInHour"
 
         [events]="events"
         [refresh]="refresh"
@@ -240,23 +243,23 @@
                 [altInput]="true"
                 [convertModelValue]="true"
                 [enableTime]="true"
-                dateFormat="Y-m-dTH:i"
-                altFormat="F j, Y H:i"
+                dateFormat="(H:i) d/m/Y"
+                altFormat="(H:i) d/m/Y"
                 placeholder="Not set"
               />
             </td>
             <td>
               <input
                 class="form-control"
-                type="text"
+                type="datetime-local"
                 mwlFlatpickr
                 [(ngModel)]="event.end"
                 (ngModelChange)="refresh.next()"
                 [altInput]="true"
                 [convertModelValue]="true"
                 [enableTime]="true"
-                dateFormat="Y-m-dTH:i"
-                altFormat="F j, Y H:i"
+                dateFormat="(H:i) d/m/Y"
+                altFormat="(H:i) d/m/Y"
                 placeholder="Not set"
               />
             </td>

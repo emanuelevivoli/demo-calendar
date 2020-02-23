@@ -32,8 +32,11 @@ import {
   CalendarWeekViewBeforeRenderEvent,
   CalendarDayViewBeforeRenderEvent,
   CalendarEventTimesChangedEvent,
+  CalendarEventTitleFormatter,
   CalendarView
 } from 'angular-calendar';
+
+import { CustomEventTitleFormatter } from './personalize/custom-event-title-formatter.provider';
 
 const colors: any = {
   red: {
@@ -57,9 +60,17 @@ const colors: any = {
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
   // add this to your component metadata
-  animations: [collapseAnimation]
+  animations: [collapseAnimation],
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: CustomEventTitleFormatter
+    }
+  ]
 })
 export class AppComponent {
+
+  segmentsInHour = 6;
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -88,13 +99,13 @@ export class AppComponent {
   refresh: Subject<any> = new Subject();
 
   actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
+    // {
+    //   label: '<i class="fa fa-fw fa-pencil"></i>',
+    //   a11yLabel: 'Edit',
+    //   onClick: ({ event }: { event: CalendarEvent }): void => {
+    //     this.handleEvent('Edited', event);
+    //   }
+    // },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
       a11yLabel: 'Delete',
