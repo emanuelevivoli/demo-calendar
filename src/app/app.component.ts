@@ -162,6 +162,7 @@ export class AppComponent {
       draggable: true,
       meta: {
         patient: 127455,
+        note: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
       }
     },
     {
@@ -177,7 +178,8 @@ export class AppComponent {
       },
       draggable: true,
       meta: {
-        patient: 127456
+        patient: 127456,
+        note: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
       }
     },
     {
@@ -193,7 +195,8 @@ export class AppComponent {
       },
       draggable: true,
       meta: {
-        patient: 127457
+        patient: 127457,
+        note: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
       }
     },
     {
@@ -209,7 +212,8 @@ export class AppComponent {
       },
       draggable: true,
       meta: {
-        patient: 127458
+        patient: 127458,
+        note: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
       }
     }
   ];
@@ -341,8 +345,8 @@ export class AppComponent {
       hourColumn.hours.forEach(hour => {
         hour.segments.forEach(segment => {
           if (
-            segment.date.getHours() >= 2 &&
-            segment.date.getHours() <= 5 &&
+            segment.date.getHours() >= 9 &&
+            segment.date.getHours() <= 11 &&
             segment.date.getDay() === 2
           ) {
             segment.cssClass = 'bg-pink';

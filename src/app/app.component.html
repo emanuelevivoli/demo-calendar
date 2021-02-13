@@ -101,6 +101,33 @@
       </div>
     </div>
 
+    <ng-template
+      #customEventTitleTemplate
+      let-event="event"
+      let-view="view">
+      <!-- <span
+        class="cal-event-title"
+        [innerHTML]="event.meta.patient">
+      </span> -->
+      <mat-card class="mat-example p-0">
+          <mat-card-header class="p-0">
+            <mat-card-title>{{event.meta.patient}}</mat-card-title>
+            <mat-card-subtitle>{{event.title}}</mat-card-subtitle>
+          </mat-card-header>
+          <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+          <mat-card-content fxFlex="100">
+            <p>
+              {{event.meta.note}}
+            </p>
+          </mat-card-content>
+          <!-- <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions> -->
+      </mat-card>
+      <!-- [innerHTML]="event.meta.patient | calendarEventTitle:view:event"> -->
+    </ng-template>
+
     <div [ngSwitch]="view">
 
       <!--
@@ -140,6 +167,7 @@
         [hourSegments]="segmentsInHour"
 
         [events]="events"
+        [eventTitleTemplate]="customEventTitleTemplate"
         [refresh]="refresh"
 
         (eventClicked)="handleEvent('Clicked', $event.event)"
@@ -243,7 +271,7 @@
                 [altInput]="true"
                 [convertModelValue]="true"
                 [enableTime]="true"
-                dateFormat="(H:i) d/m/Y"
+                dateFormat="yyyy-MM-ddTHH:mm"
                 altFormat="(H:i) d/m/Y"
                 placeholder="Not set"
               />
@@ -258,7 +286,7 @@
                 [altInput]="true"
                 [convertModelValue]="true"
                 [enableTime]="true"
-                dateFormat="(H:i) d/m/Y"
+                dateFormat="yyyy-MM-ddTHH:mm"
                 altFormat="(H:i) d/m/Y"
                 placeholder="Not set"
               />
